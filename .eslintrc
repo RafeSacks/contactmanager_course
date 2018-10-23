@@ -1,0 +1,9 @@
+{
+    "extends": "rallycoding",
+    "rules" : {
+        "no-unused-vars": "warn",
+        "no-multiple-empty-lines": "warn", 
+        "arrow-body-style": "off",
+        "object-curly-spacing": "warn"
+    }
+}
