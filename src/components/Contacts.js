@@ -25,6 +25,12 @@ class Contacts extends Component {
     ]
   };
 
+  deleteContact = id => {
+    const { contacts } = this.state;
+    const new_contacts = contacts.filter(contact => contact.id !== id);
+    this.setState({ contacts: new_contacts });
+  };
+
   render() {
     const { contacts } = this.state;
 
@@ -32,7 +38,11 @@ class Contacts extends Component {
       // Fragments take out the extra div that would have been here instead.
       <Fragment>
         {contacts.map(contact => (
-          <Contact key={contact.id} contact={contact} />
+          <Contact
+            key={contact.id}
+            contact={contact}
+            deleteClickHandler={this.deleteContact.bind(this, contact.id)}
+          />
         ))}
       </Fragment>
     );
