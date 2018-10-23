@@ -9,7 +9,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header brand="Contact Manager" />
+        <Header branding="Contact Manager" />
         <div className="container">
           <Contacts />
         </div>
