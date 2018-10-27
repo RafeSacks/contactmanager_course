@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./components/layout/Header";
+import NotFound from "./components/pages/NotFound";
 import About from "./components/pages/About";
 import Contacts from "./components/contacts/Contacts";
 import AddContact from "./components/contacts/AddContact";
@@ -19,7 +20,9 @@ class App extends Component {
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Contacts} />
+                <Route exact path="/Contact/Add" component={AddContact} />
                 <Route exact path="/About" component={About} />
+                <Route component={NotFound} />
               </Switch>
             </div>
           </div>

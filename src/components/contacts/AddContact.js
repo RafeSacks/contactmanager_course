@@ -49,6 +49,9 @@ class AddContact extends Component {
 
     // Clear form
     this.setState({ name: "", email: "", phone: "", errors: {} });
+
+    // Redirect back to home
+    this.props.history.push("/");
   };
 
   onChange = event => {
