@@ -1,69 +1,62 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React, { Component } from 'react';
+import { Consumer } from '../../context';
+import TextInputGroup from '../layout/TextInputGroup';
+import axios from 'axios';
 
-import { Consumer } from "../../context";
-import TextInputGroup from "../layout/TextInputGroup";
 class AddContact extends Component {
   state = {
-    name: "",
-    email: "",
-    phone: "",
+    name: '',
+    email: '',
+    phone: '',
     errors: {}
   };
 
-  onSubmit = async (dispatch, event) => {
-    event.preventDefault();
+  onSubmit = async (dispatch, e) => {
+    e.preventDefault();
 
     const { name, email, phone } = this.state;
 
-    // Validate form: Check for errors
-    let errors = {};
-    if (name === "") {
-      errors = { ...errors, name: "Name is required" };
+    // Check For Errors
+    if (name === '') {
+      this.setState({ errors: { name: 'Name is required' } });
+      return;
     }
 
-    if (email === "") {
-      errors = { ...errors, email: "Email is required" };
+    if (email === '') {
+      this.setState({ errors: { email: 'Email is required' } });
+      return;
     }
 
-    if (phone === "") {
-      errors = { ...errors, phone: "Phone is required" };
-    }
-
-    // If there are keys then there are errors. Set state and quit
-    if (Boolean(Object.keys(errors).length)) {
-      this.setState({ errors: errors });
+    if (phone === '') {
+      this.setState({ errors: { phone: 'Phone is required' } });
       return;
     }
 
     const newContact = {
-      // if key and value are the same you can use this shortcut
       name,
       email,
       phone
     };
 
-    // Make create request. Id is handled by backend and included in response data
-    const response = await axios.post(
-      "https://jsonplaceholder.typicode.com/users",
+    const res = await axios.post(
+      'https://jsonplaceholder.typicode.com/users',
       newContact
     );
 
-    dispatch({
-      type: "ADD_CONTACT",
-      payload: response.data
+    dispatch({ type: 'ADD_CONTACT', payload: res.data });
+
+    // Clear State
+    this.setState({
+      name: '',
+      email: '',
+      phone: '',
+      errors: {}
     });
 
-    // Clear form
-    this.setState({ name: "", email: "", phone: "", errors: {} });
-
-    // Redirect back to home
-    this.props.history.push("/");
+    this.props.history.push('/');
   };
 
-  onChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+  onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   render() {
     const { name, email, phone, errors } = this.state;

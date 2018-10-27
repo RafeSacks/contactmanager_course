@@ -1,12 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const Header = props => {
   const { branding } = props;
   return (
-    <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-3 py-0">
-      <div className="div container">
+    <nav className="navbar navbar-expand-sm navbar-dark bg-danger mb-3 py-0">
+      <div className="container">
         <a href="/" className="navbar-brand">
           {branding}
         </a>
@@ -18,15 +18,13 @@ const Header = props => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/Contact/Add" className="nav-link">
-                <i className="fas fa-plus" />
-                Add
+              <Link to="/contact/add" className="nav-link">
+                <i className="fas fa-plus" /> Add
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/About" className="nav-link">
-                <i className="fas fa-question" />
-                About
+              <Link to="/about" className="nav-link">
+                <i className="fas fa-question" /> About
               </Link>
             </li>
           </ul>
@@ -37,7 +35,7 @@ const Header = props => {
 };
 
 Header.defaultProps = {
-  branding: "NO BRANDING"
+  branding: 'My App'
 };
 
 Header.propTypes = {

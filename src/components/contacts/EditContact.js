@@ -1,23 +1,24 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React, { Component } from 'react';
+import { Consumer } from '../../context';
+import TextInputGroup from '../layout/TextInputGroup';
+import axios from 'axios';
 
-import { Consumer } from "../../context";
-import TextInputGroup from "../layout/TextInputGroup";
 class EditContact extends Component {
   state = {
-    name: "",
-    email: "",
-    phone: "",
+    name: '',
+    email: '',
+    phone: '',
     errors: {}
   };
 
   async componentDidMount() {
-    const { id } = this.props.match.params; // Get from URL
-    const response = await axios.get(
+    const { id } = this.props.match.params;
+    const res = await axios.get(
       `https://jsonplaceholder.typicode.com/users/${id}`
     );
 
-    const contact = response.data;
+    const contact = res.data;
+
     this.setState({
       name: contact.name,
       email: contact.email,
@@ -25,51 +26,54 @@ class EditContact extends Component {
     });
   }
 
-  onSubmit = async (dispatch, event) => {
-    event.preventDefault();
+  onSubmit = async (dispatch, e) => {
+    e.preventDefault();
 
     const { name, email, phone } = this.state;
 
-    // Validate form: Check for errors
-    let errors = {};
-    if (name === "") {
-      errors = { ...errors, name: "Name is required" };
-    }
-
-    if (email === "") {
-      errors = { ...errors, email: "Email is required" };
-    }
-
-    if (phone === "") {
-      errors = { ...errors, phone: "Phone is required" };
-    }
-
-    // If there are keys then there are errors. Set state and quit
-    if (Boolean(Object.keys(errors).length)) {
-      this.setState({ errors: errors });
+    // Check For Errors
+    if (name === '') {
+      this.setState({ errors: { name: 'Name is required' } });
       return;
     }
 
-    const updatedContact = { name, email, phone };
+    if (email === '') {
+      this.setState({ errors: { email: 'Email is required' } });
+      return;
+    }
 
-    const { id } = this.props.match.params; // Get from URL
+    if (phone === '') {
+      this.setState({ errors: { phone: 'Phone is required' } });
+      return;
+    }
 
-    const response = await axios.put(
+    const updContact = {
+      name,
+      email,
+      phone
+    };
+
+    const { id } = this.props.match.params;
+
+    const res = await axios.put(
       `https://jsonplaceholder.typicode.com/users/${id}`,
-      updatedContact
+      updContact
     );
 
-    dispatch({ type: "UPDATE_CONTACT", payload: response.data });
+    dispatch({ type: 'UPDATE_CONTACT', payload: res.data });
 
-    this.setState({ name: "", email: "", phone: "", errors: {} });
+    // Clear State
+    this.setState({
+      name: '',
+      email: '',
+      phone: '',
+      errors: {}
+    });
 
-    // Redirect back to home
-    this.props.history.push("/");
+    this.props.history.push('/');
   };
 
-  onChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+  onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   render() {
     const { name, email, phone, errors } = this.state;
