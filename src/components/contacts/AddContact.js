@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-
-import uuid from "uuid";
+import axios from "axios";
 
 import { Consumer } from "../../context";
 import TextInputGroup from "../layout/TextInputGroup";
@@ -41,11 +40,18 @@ class AddContact extends Component {
       // if key and value are the same you can use this shortcut
       name,
       email,
-      phone,
-      id: uuid()
+      phone
     };
 
-    dispatch({ type: "ADD_CONTACT", payload: newContact });
+    // Make create request. Id is handled by backend and included in response data
+    axios
+      .post("https://jsonplaceholder.typicode.com/users", newContact)
+      .then(response =>
+        dispatch({
+          type: "ADD_CONTACT",
+          payload: response.data
+        })
+      );
 
     // Clear form
     this.setState({ name: "", email: "", phone: "", errors: {} });
