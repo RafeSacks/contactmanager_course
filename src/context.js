@@ -3,19 +3,31 @@ import React, { Component } from "react";
 const Context = React.createContext();
 
 const reducer = (state, action) => {
+  let updated_state;
+
   switch (action.type) {
     case "DELETE_CONTACT":
-      const new_state = {
+      updated_state = {
         ...state,
         contacts: state.contacts.filter(
           contact => contact.id !== action.payload
         )
       };
+      break;
 
-      return new_state;
+    case "ADD_CONTACT":
+      updated_state = {
+        ...state,
+        contacts: [action.payload, ...state.contacts]
+      };
+      break;
+
     default:
-      return state;
+      updated_state = state;
+      break;
   }
+
+  return updated_state;
 };
 
 export class Provider extends Component {
